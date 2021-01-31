@@ -30,18 +30,38 @@ export default {
   data() {
     return {
       displayValue: "0",
-      clearMemory: false,
+      clearDisplay: false,
+      operation: null,
+      values: [0, 0],
+      current: 0,
     };
   },
   methods: {
     clearMemory() {
-      this.value = 0;
+      Object.assign(this.$data, this.$options.data());
     },
     setOperation(op) {
       this.value = op;
     },
     setDigit(digit) {
-      this.value = digit;
+      if (digit === "." && this.displayValue.includes(".")) {
+        return;
+      }
+
+      const clearDisplay = this.displayValue === "0" || this.clearDisplay;
+
+      const currentValue = clearDisplay ? "" : this.displayValue;
+
+      const displayValue = currentValue + digit;
+
+      this.displayValue = displayValue;
+      this.clearDisplay = false;
+
+      if (digit !== ".") {
+        const i = this.current;
+        const newValue = parseFloat(displayValue);
+        this.values[i] = newValue;
+      }
     },
   },
 };
