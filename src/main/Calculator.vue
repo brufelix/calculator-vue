@@ -17,7 +17,7 @@
     <Button label="+" operation @onClick="setOperation" />
     <Button label="0" double @onClick="setDigit" />
     <Button label="." @onClick="setDigit" />
-    <Button label="=" operation />
+    <Button label="=" operation @onClick="setOperation" />
   </div>
 </template>
 
@@ -41,7 +41,29 @@ export default {
       Object.assign(this.$data, this.$options.data());
     },
     setOperation(op) {
-      this.value = op;
+      if (this.current === 0) {
+        this.operation = op;
+        this.current = 1;
+        this.clearDisplay = true;
+      } else {
+        const equals = op === "=";
+        const currentOperation = this.operation;
+
+        try {
+          this.values[0] = eval(
+            `${this.values[0]} ${currentOperation} ${this.values[1]}`
+          );
+        } catch (e) {
+          this.$emit("onError", e);
+        }
+
+        this.values[1] = 0;
+
+        this.displayValue = this.values[0];
+        this.operation = equals ? null : op;
+        this.current = equals ? 0 : 1;
+        this.clearDisplay = !equals;
+      }
     },
     setDigit(digit) {
       if (digit === "." && this.displayValue.includes(".")) {
