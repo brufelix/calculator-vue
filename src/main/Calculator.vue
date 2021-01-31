@@ -1,27 +1,24 @@
 <template>
-  <Fragment>
-    <h1>Calculator</h1>
-    <div class="calculator">
-      <Display value="0" />
-      <Button label="AC" triple />
-      <Button label="/" operation />
-      <Button label="7" />
-      <Button label="8" />
-      <Button label="9" />
-      <Button label="*" operation />
-      <Button label="4" />
-      <Button label="5" />
-      <Button label="6" />
-      <Button label="-" operation />
-      <Button label="1" />
-      <Button label="2" />
-      <Button label="3" />
-      <Button label="+" operation />
-      <Button label="0" double />
-      <Button label="." />
-      <Button label="=" operation />
-    </div>
-  </Fragment>
+  <div class="calculator">
+    <Display :value="displayValue" />
+    <Button label="AC" triple @onClick="clearMemory" />
+    <Button label="/" operation @onClick="setOperation" />
+    <Button label="7" @onClick="setDigit" />
+    <Button label="8" @onClick="setDigit" />
+    <Button label="9" @onClick="setDigit" />
+    <Button label="*" operation @onClick="setOperation" />
+    <Button label="4" @onClick="setDigit" />
+    <Button label="5" @onClick="setDigit" />
+    <Button label="6" @onClick="setDigit" />
+    <Button label="-" operation @onClick="setOperation" />
+    <Button label="1" @onClick="setDigit" />
+    <Button label="2" @onClick="setDigit" />
+    <Button label="3" @onClick="setDigit" />
+    <Button label="+" operation @onClick="setOperation" />
+    <Button label="0" double @onClick="setDigit" />
+    <Button label="." @onClick="setDigit" />
+    <Button label="=" operation />
+  </div>
 </template>
 
 <script>
@@ -30,6 +27,23 @@ import Display from "../components/Display";
 
 export default {
   components: { Button, Display },
+  data() {
+    return {
+      displayValue: "0",
+      clearMemory: false,
+    };
+  },
+  methods: {
+    clearMemory() {
+      this.value = 0;
+    },
+    setOperation(op) {
+      this.value = op;
+    },
+    setDigit(digit) {
+      this.value = digit;
+    },
+  },
 };
 </script>
 

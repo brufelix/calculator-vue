@@ -20,6 +20,8 @@ export default {
   align-items: center;
   padding: 20px;
 
+  overflow: hidden;
+
   font-size: 2.2em;
 }
 </style>
